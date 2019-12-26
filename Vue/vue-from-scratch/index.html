@@ -7,37 +7,39 @@
 
     <body>
         <div id="app">
-            <input type="text" v-model="price">
-            <div>Tax {{moneyFormat(tax)}}</div>
-            <div>Total {{moneyFormat(total)}}</div>
+            <accordian v-for="item in items" :key="item.id" :item="item"></accordian>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
         <script>
-            new Vue({
-                el: '#app',
+            Vue.component('accordian', {
+                props: ['item'],
 
-                data: {
-                    price: 100,
-                },
+                template: `
+                    <div> 
+                        <p>{{item.title}}</p>
+                        <p @click="toggle = !toggle">Details</p>
+                        <p v-if="toggle">{{item.description}}</p>
+                    </div>
+                `,
 
-                methods: {
-                    moneyFormat: function(price) {
-                        return '$' + price + '.00'; 
-                    }
-                },
-
-                computed: {
-                    tax: function() {
-                        return this.price * 0.1;
-                    },
-
-                    total: function() {
-                        return parseInt(this.price) + this.tax;
+                data: function() {
+                    return {
+                        toggle: false
                     }
                 }
-                
+            });
+
+            new Vue({
+                el: '#app',
+                data: {
+                    items: [
+                        {id: 1, title: "Title 1", description: "Description for tab 1"},
+                        {id: 2, title: "Title 2", description: "Description for tab 2"},
+                        {id: 3, title: "Title 3", description: "Description for tab 3"}
+                    ]
+                }
             });
         </script>
     </body>
