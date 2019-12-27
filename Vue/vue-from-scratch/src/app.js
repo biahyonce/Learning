@@ -1,18 +1,26 @@
 import Vue from 'vue';
-import List from "./components/List";
+
+window.axios = require('axios')  // Import axios globally
 
 new Vue({
     el: '#app',
 
     components: {
-        List
+        //
+    },
+
+    mounted: function() {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then(response => this.posts = response.data)
+            .catch(error => this.posts = [{title: 'No data found'}])
+            .finally(() => console.log("Data loading complete!"));
+
+        axios.post('https://jsonplaceholder.typicode.com/posts')
+            .then(response => console.log(response))
+            .finally(() => console.log('Data post complete!'));
     },
 
     data: {
-        items: [
-            {id: 1, title: "Title 1", description: "Description for tab 1"},
-            {id: 2, title: "Title 2", description: "Description for tab 2"},
-            {id: 3, title: "Title 3", description: "Description for tab 3"}
-        ]  
+        posts: null
     }
 });

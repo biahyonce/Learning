@@ -7,7 +7,10 @@
 
     <body>
         <div id="app">
-            <list></list>
+            <!-- Vue.js app -->
+            <ul>
+                <li v-for="post in posts" v-text="post.title"></li>
+            </ul>
         </div>
 
         <script src="./dist/app.js"></script>
