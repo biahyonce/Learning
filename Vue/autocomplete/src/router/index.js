@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Pricing from '../views/Pricing'
+import Forms from "../views/Forms";
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
       path: '/pricing',
       name: 'pricing',
       component: Pricing
+    },
+    {
+      path: '/forms',
+      name: 'form',
+      component: Forms
     }
   ]
 })
