@@ -10,14 +10,17 @@
     </div>
 </template>
 <script>
+    import {store, mutations} from "../../store";
+
     export default {
-        data: () => ({
-            isPanelOpen: true
-        }),
-        methods: {
-            closeSidebarPanel() {
-                this.isPanelOpen = false
+        computed: {
+            isPanelOpen() {
+                return store.isNavOpen
             }
+        },
+
+        methods: {
+            closeSidebarPanel: mutations.toggleNav
         }
     }
 </script>
