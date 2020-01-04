@@ -1,14 +1,16 @@
 <template>
     <div class="hello">
         <burger></burger>
+        <sidebar></sidebar>
     </div>
 </template>
 
 <script>
 import Burger from "./menu/Burger";
+import Sidebar from "./menu/Sidebar";
 export default {
     name: 'HelloWorld',
-    components: {Burger},
+    components: {Sidebar, Burger},
 
 }
 </script>
