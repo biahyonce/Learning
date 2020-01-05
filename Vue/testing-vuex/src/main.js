@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Counter from "./components/Counter";
 
 Vue.config.productionTip = false
 
@@ -10,8 +9,7 @@ Vue.config.productionTip = false
 // It can be accessed by using this.$store
 
 new Vue({
-  router,
-  store,
-  components: {Counter},
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
