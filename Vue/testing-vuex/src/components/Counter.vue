@@ -1,7 +1,9 @@
 <template>
     <div>
-        {{count}}
-        {{abobrinha}}
+        <h1>{{countAlias}}</h1>
+        <h1>{{count}}</h1>
+        <h1>{{msg}}</h1>
+        <h1>{{teste}}</h1>
     </div>
 </template>
 
@@ -10,7 +12,15 @@
 
     export default {
         name: "Counter",
-        computed: mapState(['count'])
+        computed: {
+            ...mapState(
+                {countAlias: 'count'}
+            ),
+            ...mapState(['msg', 'count']),
+            teste() {
+                return "teste"
+            }
+        }
     }
 </script>
 
