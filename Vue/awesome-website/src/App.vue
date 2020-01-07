@@ -4,15 +4,19 @@
             <div class="logo">
                 my.company
             </div>
-            <Burger></Burger>
+            <div class="right">
+                <Burger></Burger>
+            </div>
+
+            <div>
+                <i class="fas fa-bars fa-spin" />
+            </div>
         </nav>
 
         <Sidebar>
-            <ul class="sidebar-panel-nav">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+            <div class="sidebar">
+                <a href="#home"><i class="fas fa-check-square"></i>Home</a>
+            </div>
         </Sidebar>
     </div>
 </template>
@@ -42,6 +46,11 @@ export default {
         height: 100%;
         background: rgb(101,31,87);
         background: linear-gradient(45deg, rgba(101,31,87,1) 0%, rgba(225,113,87,1) 48%, rgba(249,248,113,1) 100%);
+    }
+
+    .right {
+        width: 100px;
+        float: right
     }
 
     .logo {

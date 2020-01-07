@@ -58,14 +58,17 @@ export default {
     }
 
     .burger-button {
-        position: relative;
-        height: 30px;
-        width: 32px;
-        display: block;
-        z-index: 60;
+        position: fixed;
+        height: 10%;
+        width: 3%;
+        float: left;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        background-color: transparent;
         border: 0;
         border-radius: 0;
-        background-color: transparent;
+        display: block;
         pointer-events: all;
         transition: transform .6s cubic-bezier(.165,.84,.44,1);
     }

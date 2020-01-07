@@ -53,9 +53,11 @@
         position: fixed;
         left: 0;
         top: 0;
-        height: 100vh;
-        z-index: 999;
+        /*height: 100vh;*/
+        height: 100%;
+        /* width: 300px; */
+        width: 20%;
+        z-index: 100;
         padding: 3rem 20px 2rem 20px;
-        width: 300px;
     }
 </style>
