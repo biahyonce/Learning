@@ -1,15 +1,33 @@
 <template>
     <div>
-    <v-data-table
-        :headers="headers"
-        :items="incidents"
-        class="elevation-1"
-        style="width: 45%"
-    >
-        <template v-slot:item.status="{ item }">
-            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
-        </template>
-    </v-data-table>
+        <v-container class="grey lighten-2">
+            <v-card>
+                <v-card-title>
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                            v-model="search"
+                            append-icon="search"
+                            label="Search"
+                            single-line
+                            hide-details
+                    ></v-text-field>
+                </v-card-title>
+
+                <v-data-table
+                    :headers="headers"
+                    :items="incidents"
+                    :search="search"
+                    class="elevation-1"
+                    loading-text="Por favor, aguarde..."
+                >
+                    <template v-slot:item.status="{ item }">
+                        <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-container>
+
+
     </div>
 </template>
 
@@ -17,6 +35,8 @@
     export default {
         data () {
             return {
+                search: '',
+
                 headers: [
                     {
                         text: 'Category',
@@ -61,22 +81,26 @@
                         status: 'Finalizado',
                         lastUpdate: new Date(2019, 11, 27)
                     },
-                ]
+                    {
+                        category: 'Atentado Terrorista',
+                        status: 'Finalizado',
+                        lastUpdate: new Date(2019, 12, 11)
+                    },
+                ],
             }
         },
 
+
         methods: {
             getColor(status) {
-                if (status == 'Em andamento') return 'blue'
-                else if (status == 'Finalizado') return 'green'
-                else return 'red'
+                if (status == 'Em andamento') return '#2E86C1'
+                else if (status == 'Finalizado') return '#2BBD43'
+                else if (status == 'Não atendido') return '#D8231B'
             }
         }
     }
 </script>
 
 <style scoped>
-    .header {
-        width: 10%;
-    }
+
 </style>
