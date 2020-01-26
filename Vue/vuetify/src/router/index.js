@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Table from "../views/Table";
 import About from '../views/About'
 import ExpandableTable from "../views/ExpandableTable";
+import CustomTable from "../views/CustomTable";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,12 @@ const routes = [
         path: '/expandableTable',
         name: 'Expandable Table',
         component: ExpandableTable
+    },
+
+    {
+        path: '/customTable',
+        name: 'Custom Table',
+        component: CustomTable
     }
 ]
 
