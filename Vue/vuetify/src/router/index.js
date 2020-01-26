@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Table from "../views/Table";
 import About from '../views/About'
+import ExpandableTable from "../views/ExpandableTable";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,12 @@ const routes = [
         path: '/table',
         name: 'table',
         component: Table
+    },
+
+    {
+        path: '/expandableTable',
+        name: 'Expandable Table',
+        component: ExpandableTable
     }
 ]
 
