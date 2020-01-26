@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard">
-        <v-container class="my-5">
+        <v-container class="grey lighten-2">
             <v-card flat>
                 <v-text-field
                         v-model="search"
@@ -11,30 +11,34 @@
                         class="card-item"
                 ></v-text-field>
 
-                <v-card
-                    class="card-item"
-                    v-for="incident in filteredIncidents"
-                    :key="incident"
-                >
-                    <v-layout column wrap :class="`pa-3 incident ${incident.status}`">
-                        <v-flex xs12 md6 clas>
-                            <div class="caption grey--text">Categoria</div>
-                            <div class="caption">{{incident.category}}</div>
-                        </v-flex>
+                <v-expansion-panels class="expansion-panel">
+                    <v-expansion-panel
+                        v-for="incident in filteredIncidents"
+                        :key="incident"
+                        :class="`pa-3 incident ${incident.status}`"
+                    >
+                        <v-expansion-panel-header expand-icon="">{{incident.category}}</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-layout column wrap>
+                                <v-flex xs12 md6 clas>
+                                    <div class="caption grey--text">Categoria</div>
+                                    <div>{{incident.category}}</div>
+                                </v-flex>
 
-                        <v-flex xs6 sm4 md2>
-                            <div class="caption grey--text">Last Update</div>
-                            <div>{{incident.lastUpdate}}</div>
-                        </v-flex>
+                                <v-flex xs6 sm4 md2>
+                                    <div class="caption grey--text">Last Update</div>
+                                    <div>{{incident.lastUpdate}}</div>
+                                </v-flex>
 
-                        <v-flex xs2 sm4 md2>
-                            <div class="caption grey--text">Status</div>
-                            <div>{{incident.status}}</div>
-                        </v-flex>
-                    </v-layout>
+                                <v-flex xs2 sm4 md2>
+                                    <div class="caption grey--text">Status</div>
+                                    <div>{{incident.status}}</div>
+                                </v-flex>
+                            </v-layout>
+                        </v-expansion-panel-content>
 
-
-                </v-card>
+                    </v-expansion-panel>
+                </v-expansion-panels>
             </v-card>
         </v-container>
     </div>
@@ -80,6 +84,12 @@ export default {
 </script>
 
 <style scoped>
+    .expansion-panel {
+        width: 40%;
+        margin-bottom: 8px;
+        margin-left: 200px;
+    }
+
     .card-item {
         margin-bottom: 8px;
         margin-left: 200px;
