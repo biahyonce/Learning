@@ -1,92 +1,322 @@
-<template>
-    <div class="dashboard">
-        <v-container class="grey lighten-2">
-            <v-card flat>
-                <v-text-field
-                        v-model="search"
-                        append-icon="search"
-                        label="Pesquise uma ocorrência"
-                        single-line
-                        hide-details
-                        class="default-style"
-                ></v-text-field>
+<e></e><template>
+    <v-container>
 
-                <v-row flat class="default-style">
-                    <v-col>
-                        <v-switch
-                            v-model="switch1"
-                            label="ongoing"
-                            value="ongoing"
-                            color="#2E86C1"
-                            flat
-                            hide-details
-                        />
-                    </v-col>
+        <v-row
+                class="mb-6"
+                justify="space-around"
+                no-gutters
+        >
+            <v-col lg="2">
+                <v-btn
+                    v-if="showIncidents"
+                    @click="showIncidents = !showIncidents"
+                    small color="secondary"
+                    class="m-4"
+                >Esconder Ocorrências</v-btn>
 
-                    <v-col>
-                        <v-switch
-                                v-model="switch2"
-                                label="complete"
-                                value="complete"
-                                color="#2BBD43"
-                                flat
-                                hide-details
-                        />
-                    </v-col>
+                <v-btn
+                    v-if="!showIncidents"
+                    @click="showIncidents = !showIncidents"
+                    small color="primary"
+                    class="m-4"
+                >Exibir Ocorrências</v-btn>
+            </v-col>
 
-                    <v-col>
-                        <v-switch
-                                v-model="switch3"
-                                label="overdue"
-                                value="overdue"
-                                color="#D8231B"
-                                flat
-                                hide-details
-                        />
-                    </v-col>
+            <v-col lg="2">
+                <v-btn
+                    v-if="showStatistics"
+                    small color="secondary"
+                    class="m-4"
+                    @click="showStatistics = !showStatistics"
+                >Esconder Estatísticas</v-btn>
 
+                <v-btn
+                    v-if="!showStatistics"
+                    small color="primary"
+                    class="m-4"
+                    @click="showStatistics = !showStatistics"
+                >Exibir Estatísticas</v-btn>
+            </v-col>
 
-                </v-row>
+        </v-row>
 
-                <v-expansion-panels class="default-style">
-                    <v-expansion-panel
-                        v-for="incident in filteredIncidents"
-                        :key="incident.id"
-                        :class="`pa-3 incident ${incident.status}`"
-                    >
-                        <v-expansion-panel-header expand-icon="">
-                            <v-layout row wrap>
-                                <v-flex xs12 md4>
-                                    <div class="caption grey--text">Categoria</div>
-                                    <div>{{incident.category}}</div>
-                                </v-flex>
+        <v-row>
+            <v-col v-if="showIncidents">
+                <v-container :class="`incidents-layout`">
+                    <v-card  :class="`incidents-${testeCSS()}`" flat>
+                        <v-container flat>
+                            <v-row justify="space-between">
+                                <v-col lg="8">
+                                    <v-text-field
+                                        v-model="search"
+                                        append-icon="search"
+                                        label="Pesquise uma ocorrência"
+                                        single-line
+                                        hide-details
+                                    />
+                                </v-col>
 
-                                <v-flex xs6 sm4 md4>
-                                    <div class="caption grey--text">Last Update</div>
-                                    <div>{{incident.lastUpdate}}</div>
-                                </v-flex>
+                                <v-col lg="2">
+                                    <v-btn class="mx-2" fab dark color=#2E86C1>
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
 
-                                <v-flex xs2 sm4 md4>
-                                    <v-chip :color="getColor(incident.status)" class="white--text">{{incident.status}}</v-chip>
-                                </v-flex>
+                        <v-row flat>
+                            <v-col>
+                                <v-switch
+                                    v-model="switch1"
+                                    label="ongoing"
+                                    value="ongoing"
+                                    color="#2E86C1"
+                                    flat
+                                    hide-details
+                                />
+                            </v-col>
 
-                            </v-layout>
-                        </v-expansion-panel-header>
+                            <v-col>
+                                <v-switch
+                                        v-model="switch2"
+                                        label="complete"
+                                        value="complete"
+                                        color="#2BBD43"
+                                        flat
+                                        hide-details
+                                />
+                            </v-col>
 
-                        <v-expansion-panel-content>
-                            <v-layout column wrap>
-                                <v-flex xs2 sm4 md2>
-                                    <div class="caption grey--text">Descrição</div>
-                                    <div class="caption">{{incident.details}}</div>
-                                </v-flex>
-                            </v-layout>
-                        </v-expansion-panel-content>
+                            <v-col>
+                                <v-switch
+                                        v-model="switch3"
+                                        label="overdue"
+                                        value="overdue"
+                                        color="#D8231B"
+                                        flat
+                                        hide-details
+                                />
+                            </v-col>
+                        </v-row>
 
-                    </v-expansion-panel>
-                </v-expansion-panels>
-            </v-card>
-        </v-container>
-    </div>
+                        <v-expansion-panels>
+                            <v-expansion-panel
+                                v-for="incident in filteredIncidents"
+                                :key="incident.id"
+                                :class="`pa-3 incident ${incident.status}`"
+                            >
+                                <v-expansion-panel-header hide-actions>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 md4>
+                                            <div class="caption grey--text">Categoria</div>
+                                            <div>{{incident.category}}</div>
+                                        </v-flex>
+
+                                        <v-flex xs6 sm4 md4>
+                                            <div class="caption grey--text">Last Update</div>
+                                            <div>{{incident.lastUpdate}}</div>
+                                        </v-flex>
+
+                                        <v-flex xs2 sm4 md4>
+                                            <v-btn
+                                                    :color="getColor(incident.status)"
+                                                    :class="`white--text text-center`"
+                                                    dark
+                                                    width="90%"
+                                                    small
+                                            >
+                                                {{incident.status}}
+                                            </v-btn>
+                                        </v-flex>
+
+                                    </v-layout>
+                                </v-expansion-panel-header>
+
+                                <v-expansion-panel-content>
+                                    <v-layout column wrap>
+                                        <v-flex xs2 sm4 md2>
+                                            <v-row
+                                                    class="mb-6"
+                                                    justify="end"
+                                                    no-gutters
+                                            >
+                                                <v-col lg="2" v-for="s in getOtherStatus(incident.status)" :key="s">
+                                                    <v-btn
+                                                            @click="incident.status = s"
+                                                            :color="getColor(s)"
+                                                            :class="`white--text text-center`"
+                                                            dark
+                                                            small
+                                                    >
+                                                        {{s}}
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+                                            <div class="caption grey--text">Descrição</div>
+                                            <div class="caption">{{incident.details}}</div>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-expansion-panel-content>
+
+                            </v-expansion-panel>
+                        </v-expansion-panels>
+                    </v-card>
+                </v-container>
+            </v-col>
+
+            <v-col v-if="showStatistics">
+                <v-container :class="`statistics-layout`">
+                    <v-row :justify="end">
+                        <v-col v-for="stat in stats.daily" :key="stat" md="4">
+                            <v-card
+                                    class="mx-auto"
+                                    max-width="344"
+                                    outlined
+                            >
+                                <v-card-text>
+                                    <div class="display-1 text-center">{{stat.value}}</div>
+                                    <div class="text-center">{{stat.label}}</div>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+
+                        <v-col v-for="stat in stats.weekly" :key="stat" md="4">
+                            <v-card
+                                    class="mx-auto"
+                                    max-width="344"
+                                    outlined
+                            >
+                                <v-card-text>
+                                    <div class="display-1 text-center">{{stat.value}}</div>
+                                    <div class="text-center">{{stat.label}}</div>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+
+                        <v-col v-for="stat in stats.monthly" :key="stat" md="4">
+                            <v-card
+                                    class="mx-auto"
+                                    max-width="344"
+                                    outlined
+                            >
+                                <v-card-text>
+                                    <div class="display-1 text-center">{{stat.value}}</div>
+                                    <div class="text-center">{{stat.label}}</div>
+                                </v-card-text>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row :justify="start">
+                        <v-col>
+                            <v-card max-width="80%">
+                                <v-sparkline
+                                        :value="graphTest"
+                                        :gradient="gradient1"
+                                        :smooth="radius || false"
+                                        :padding="padding"
+                                        :line-width="width"
+                                        :stroke-linecap="lineCap"
+                                        :gradient-direction="gradientDirection"
+                                        :fill="fill"
+                                        :type="type"
+                                        :auto-line-width="autoLineWidth"
+                                        auto-draw
+                                />
+                            </v-card>
+                        </v-col>
+
+                        <v-col>
+                            <v-card max-width="80%">
+                                <v-sparkline
+                                        :value="graphTest"
+                                        :gradient="gradient2"
+                                        :smooth="radius || false"
+                                        :padding="padding"
+                                        :line-width="width"
+                                        :stroke-linecap="lineCap"
+                                        :gradient-direction="gradientDirection"
+                                        :fill="fill"
+                                        :type="type"
+                                        :auto-line-width="autoLineWidth"
+                                        auto-draw
+                                />
+                            </v-card>
+                        </v-col>
+                    </v-row>
+
+                    <v-row :justify="end">
+                        <v-col>
+                            <v-card max-width="100%">
+                                <v-card-text>
+                                    <div class="font-weight-thin">Ocorrências Finalizadas (Semanal)</div>
+                                </v-card-text>
+
+                                <v-sparkline
+                                        :value="graphTest"
+                                        :gradient="gradient3"
+                                        :smooth="radius || false"
+                                        :padding="padding"
+                                        :line-width="width"
+                                        :stroke-linecap="lineCap"
+                                        :gradient-direction="gradientDirection"
+                                        :fill="fill"
+                                        :type="type"
+                                        :auto-line-width="autoLineWidth"
+                                        auto-draw
+                                />
+                            </v-card>
+                        </v-col>
+
+                        <v-col>
+                            <v-card max-width="100%">
+                                <v-card-text>
+                                    <div class="font-weight-thin">Ocorrências Finalizadas (Mensal)</div>
+                                </v-card-text>
+
+                                <v-sparkline
+                                        :value="graphTest"
+                                        :gradient="gradient3"
+                                        :smooth="radius || false"
+                                        :padding="padding"
+                                        :line-width="width"
+                                        :stroke-linecap="lineCap"
+                                        :gradient-direction="gradientDirection"
+                                        :fill="fill"
+                                        :type="type"
+                                        :auto-line-width="autoLineWidth"
+                                        auto-draw
+                                />
+                            </v-card>
+                        </v-col>
+
+                        <v-col>
+                            <v-card max-width="100%">
+                                <v-card-text>
+                                    <div class="font-weight-thin">Ocorrências Finalizadas (Semestral)</div>
+                                </v-card-text>
+
+                                <v-sparkline
+                                    :value="graphTest"
+                                    :gradient="gradient3"
+                                    :smooth="radius || false"
+                                    :padding="padding"
+                                    :line-width="width"
+                                    :stroke-linecap="lineCap"
+                                    :gradient-direction="gradientDirection"
+                                    :fill="fill"
+                                    :type="type"
+                                    :auto-line-width="autoLineWidth"
+                                    auto-draw
+                                />
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-col>
+
+        </v-row>
+
+    </v-container>
 </template>
 
 <script>
@@ -94,11 +324,51 @@ export default {
     name: "CustomTable",
     data: function () {
         return {
+            status: ['ongoing', 'complete', 'overdue'],
+            showStatusOptions: false,
+
+            // Gráfico
+            graphTest: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
+            gradient1: ['#f72047', '#ffd200', '#1feaea'],
+            gradient2: ['#00c6ff', '#F0F', '#FF0'],
+            gradient3: ['#2ECC71', '#F0F3F4', '#34495E'],
+            width: 2,
+            radius: 10,
+            padding: 8,
+            lineCap: 'round',
+            gradientDirection: 'top',
+            fill: false,
+            type: 'trend',
+            autoLineWidth: false,
+
             pagination: {},
             search: '',
             switch1: 'ongoing',
             switch2: 'complete',
             switch3: 'overdue',
+            showIncidents: true,
+            showStatistics: true,
+
+            stats: {
+                daily: [
+                    {label: 'Ocorrências Registradas (Diária)', value: 10},
+                    {label: 'Ocorrências Respondidas (Diária)', value: 2},
+                    {label: 'Ocorrências Finalizadas (Diária)', value: 1}
+                ],
+
+                weekly: [
+                    {label: 'Ocorrências Registradas (Semanal)', value: 85},
+                    {label: 'Ocorrências Respondidas (Semanal)', value: 70},
+                    {label: 'Ocorrências Finalizadas (Semanal)', value: 50}
+                ],
+
+                monthly: [
+                    {label: 'Ocorrências Registradas (Mensal)', value: 300},
+                    {label: 'Ocorrências Respondidas (Mensal)', value: 250},
+                    {label: 'Ocorrências Finalizadas (Mensal)', value: 245}
+                ]
+
+            },
 
             incidents: [
                 {
@@ -113,7 +383,7 @@ export default {
                     category: 'Furto',
                     status: 'ongoing',
                     lastUpdate: '2020-01-18 00:00:00',
-                    details: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                    details: "Lorem ipsum calopsita dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
                 },
                 {
                     id: 3,
@@ -121,6 +391,34 @@ export default {
                     status: 'overdue',
                     lastUpdate: '2020-01-19 00:00:00',
                     details: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                },
+                {
+                    id: 4,
+                    category: 'Vandalismo',
+                    status: 'overdue',
+                    lastUpdate: '2020-01-19 00:00:00',
+                    details: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                },
+                {
+                    id: 5,
+                    category: 'Vandalismo',
+                    status: 'overdue',
+                    lastUpdate: '2020-01-19 00:00:00',
+                    details: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                },
+                {
+                    id: 6,
+                    category: 'Vandalismo',
+                    status: 'overdue',
+                    lastUpdate: '2020-01-19 00:00:00',
+                    details: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
+                },
+                {
+                    id: 7,
+                    category: 'Vandalismo',
+                    status: 'overdue',
+                    lastUpdate: '2020-01-19 00:00:00',
+                    details: "Lorem freira ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui."
                 }
             ],
         }
@@ -132,7 +430,8 @@ export default {
 
             // First, filter by search
             let filtered = this.incidents.filter( (incident) => {
-                return incident.category.toUpperCase().match(this.search.toUpperCase())
+                return incident.category.toUpperCase().match(this.search.toUpperCase()) ||
+                        incident.details.toUpperCase().match(this.search.toUpperCase())
             })
 
             // Then, filter by status using regex
@@ -147,6 +446,26 @@ export default {
             if (status == 'ongoing') return '#2E86C1'
             else if (status == 'complete') return '#2BBD43'
             else if (status == 'overdue') return '#D8231B'
+        },
+
+        getOtherStatus(status) {
+            let statusList= [];
+
+            this.status.forEach( (s) => {
+                if (s != status) statusList.push(s)
+            })
+
+            return statusList
+        },
+
+        zz (msg) {
+            // eslint-disable-next-line no-console
+            console.log(msg)
+        },
+
+        testeCSS() {
+            // Test if it's possible to use function to name CSS class
+            return 'card'
         }
     }
 }
@@ -158,10 +477,20 @@ export default {
         height: 10%;
     }
 
-    .default-style {
+    .search {
         width: 50%;
-        margin-bottom: 8px;
-        margin-left: 200px;
+    }
+
+    .statistics-layout {
+        width: 100%;
+    }
+
+    .incidents-layout {
+        width: 100%;
+    }
+
+    .incidents-card {
+        width: 100%;
     }
 
     .incident.ongoing {
