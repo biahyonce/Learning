@@ -91,7 +91,7 @@
                             </v-row>
                         </v-container>
 
-                        <v-row flat>
+                        <v-row class="mt-n12" flat>
                             <v-col>
                                 <v-switch
                                     v-model="switch1"
