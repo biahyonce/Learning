@@ -1,5 +1,32 @@
 <e></e><template>
     <v-container>
+        <v-row justify="center">
+            <v-dialog v-model="dialog" persistent max-width="600px">
+                <v-card>
+                    <v-card-title>
+                        <span class="headline">Registrar Ocorrência</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field v-model="newCategory" label="Categoria*" required></v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-text-field v-model="newLastUpdate" label="Data*" required></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                        <small>*indicates required field</small>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="closeAddIncident">Close</v-btn>
+                        <v-btn color="blue darken-1" text @click="addIncident">Save</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-row>
 
         <v-row
                 class="mb-6"
@@ -57,7 +84,7 @@
                                 </v-col>
 
                                 <v-col lg="2">
-                                    <v-btn class="mx-2" fab dark color=#2E86C1>
+                                    <v-btn @click="dialog = !dialog" class="mx-2" fab dark color=#2E86C1>
                                         <v-icon>mdi-plus</v-icon>
                                     </v-btn>
                                 </v-col>
@@ -313,7 +340,6 @@
                     </v-row>
                 </v-container>
             </v-col>
-
         </v-row>
 
     </v-container>
@@ -324,6 +350,11 @@ export default {
     name: "CustomTable",
     data: function () {
         return {
+            dialog: false,
+            newId: 10,
+            newCategory: '',
+            newLastUpdate: '',
+
             status: ['ongoing', 'complete', 'overdue'],
             showStatusOptions: false,
 
@@ -458,9 +489,26 @@ export default {
             return statusList
         },
 
-        zz (msg) {
+        addIncident() {
             // eslint-disable-next-line no-console
-            console.log(msg)
+            console.log([this.newId, this.newCategory, this.newLastUpdate, 'overdue'])
+
+            this.incidents.push({
+                id: this.newId,
+                category: this.newCategory,
+                lastUpdate: this.newLastUpdate,
+                status: 'overdue',
+                details: 'ABORORIREO AODOSOO OALOHA ABOBRINHS'
+            })
+
+            this.newId++;
+            this.newCategory = '';
+            this.newLastUpdate = '';
+            this.dialog = false
+        },
+
+        closeAddIncident() {
+            this.dialog = false
         },
 
         testeCSS() {
