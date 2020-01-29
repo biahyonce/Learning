@@ -1,5 +1,6 @@
 <e></e><template>
     <v-container>
+        <!-- Form that creates incidents -->
         <v-row justify="center">
             <v-dialog v-model="dialog" persistent max-width="600px">
                 <v-card>
@@ -28,6 +29,39 @@
             </v-dialog>
         </v-row>
 
+        <!-- Dialog to warn about deleting -->
+        <v-dialog
+                v-model="showDeleteWarning"
+                max-width="290"
+        >
+            <v-card>
+                <v-card-title class="headline">Remover Ocorrência</v-card-title>
+
+                <v-card-text>
+                    Você está prestes a remover uma ocorrência.
+                    Deseja continuar?
+                </v-card-text>
+                    <v-card-actions>
+                        <v-btn
+                                color="red darken-4"
+                                dark
+                                @click="removeIncident"
+                        >
+                            Remover
+                        </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                                color="grey darken-1"
+                                dark
+                                @click="(showDeleteWarning = false)"
+                        >
+                            Cancelar
+                        </v-btn>
+                    </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <!-- Toggle incidents and statistics dashboard-->
         <v-row
                 class="mb-6"
                 justify="space-around"
@@ -36,14 +70,14 @@
             <v-col lg="2">
                 <v-btn
                     v-if="showIncidents"
-                    @click="showIncidents = !showIncidents"
+                    @click="(showIncidents = !showIncidents)"
                     small color="secondary"
                     class="m-4"
                 >Esconder Ocorrências</v-btn>
 
                 <v-btn
                     v-if="!showIncidents"
-                    @click="showIncidents = !showIncidents"
+                    @click="(showIncidents = !showIncidents) && (showStatistics = false)"
                     small color="primary"
                     class="m-4"
                 >Exibir Ocorrências</v-btn>
@@ -61,12 +95,13 @@
                     v-if="!showStatistics"
                     small color="primary"
                     class="m-4"
-                    @click="showStatistics = !showStatistics"
+                    @click="(showStatistics = !showStatistics) && (showIncidents = false)"
                 >Exibir Estatísticas</v-btn>
             </v-col>
 
         </v-row>
 
+        <!-- Incidents dashboard -->
         <v-row>
             <v-col v-if="showIncidents">
                 <v-container :class="`incidents-layout`">
@@ -128,7 +163,7 @@
 
                         <v-expansion-panels>
                             <v-expansion-panel
-                                v-for="incident in filteredIncidents"
+                                v-for="(incident, i) in filteredIncidents"
                                 :key="incident.id"
                                 :class="`pa-3 incident ${incident.status}`"
                             >
@@ -179,8 +214,29 @@
                                                     </v-btn>
                                                 </v-col>
                                             </v-row>
+
                                             <div class="caption grey--text">Descrição</div>
                                             <div class="caption">{{incident.details}}</div>
+
+                                            <v-row
+                                                    class="mb-6"
+                                                    justify="center"
+                                                    no-gutters
+                                            >
+                                                <v-col lg="2">
+                                                    <v-btn
+                                                            @click="popDeleteWarning(i)"
+                                                            :color="'#707B7C'"
+                                                            class="white--text text-center mt-4 mb-n8"
+                                                            dark
+                                                            small
+                                                    >
+                                                        <v-icon left>mdi-delete</v-icon>
+                                                        Remover Ocorrência
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+
                                         </v-flex>
                                     </v-layout>
                                 </v-expansion-panel-content>
@@ -191,6 +247,7 @@
                 </v-container>
             </v-col>
 
+            <!-- Statistics Dashboard -->
             <v-col v-if="showStatistics">
                 <v-container :class="`statistics-layout`">
                     <v-row :justify="end">
@@ -357,6 +414,8 @@ export default {
 
             status: ['ongoing', 'complete', 'overdue'],
             showStatusOptions: false,
+            showDeleteWarning: false,
+            incidentToDelete: null,
 
             // Gráfico
             graphTest: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
@@ -378,7 +437,7 @@ export default {
             switch2: 'complete',
             switch3: 'overdue',
             showIncidents: true,
-            showStatistics: true,
+            showStatistics: false,
 
             stats: {
                 daily: [
@@ -505,6 +564,17 @@ export default {
             this.newCategory = '';
             this.newLastUpdate = '';
             this.dialog = false
+        },
+
+        popDeleteWarning(index) {
+            this.incidentToDelete = index
+            this.showDeleteWarning = true;
+        },
+
+        removeIncident() {
+            this.incidents.splice(this.incidentToDelete, 1)
+            this.incidentToDelete = null
+            this.showDeleteWarning = false;
         },
 
         closeAddIncident() {
