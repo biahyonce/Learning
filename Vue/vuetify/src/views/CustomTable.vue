@@ -69,33 +69,19 @@
         >
             <v-col lg="2">
                 <v-btn
-                    v-if="showIncidents"
-                    @click="(showIncidents = !showIncidents)"
-                    small color="secondary"
+                    small
+                    :color="getDashboardOption(showIncidents)"
                     class="m-4"
-                >Esconder Ocorrências</v-btn>
-
-                <v-btn
-                    v-if="!showIncidents"
-                    @click="(showIncidents = !showIncidents) && (showStatistics = false)"
-                    small color="primary"
-                    class="m-4"
+                    @click="toggleIncidents"
                 >Exibir Ocorrências</v-btn>
             </v-col>
 
             <v-col lg="2">
                 <v-btn
-                    v-if="showStatistics"
-                    small color="secondary"
+                    small
+                    :color="getDashboardOption(showStatistics)"
                     class="m-4"
-                    @click="showStatistics = !showStatistics"
-                >Esconder Estatísticas</v-btn>
-
-                <v-btn
-                    v-if="!showStatistics"
-                    small color="primary"
-                    class="m-4"
-                    @click="(showStatistics = !showStatistics) && (showIncidents = false)"
+                    @click="toggleStatistics"
                 >Exibir Estatísticas</v-btn>
             </v-col>
 
@@ -532,6 +518,25 @@ export default {
     },
 
     methods: {
+        toggleStatistics() {
+            if (this.showIncidents) {
+                this.showStatistics = true
+                this.showIncidents = false
+            }
+        },
+
+        toggleIncidents() {
+            if (this.showStatistics) {
+                this.showIncidents = true
+                this.showStatistics = false
+            }
+        },
+
+        getDashboardOption(option) {
+            if (option) return 'primary'
+            else return 'secondary'
+        },
+
         getColor(status) {
             if (status == 'ongoing') return '#2E86C1'
             else if (status == 'complete') return '#2BBD43'
