@@ -1,0 +1,53 @@
+--- TEORIA RELACIONADA
+. inode: funciona de forma semelhante ao índice. Cada arquivo possui um índice com as informações sobre esse arquivo. 
+	-> Problema: se uma aplicação cria muitos arquivos pequenos, pode esgotar a quantidade de inode disponível e aí vai dar um erro de falta de espaço, mesmo que o disco ainda possua espaço disponível.
+
+. /sbin/fsck : pasta onde possuem todos os fsck
+
+--- COMANDOS RELACIONADOS
+. df: mostra informações sobre as principais partições e algumas partições temporárias alocadas dinamicamente pelo Linux. Além disso, mostra informações sobre o File System.
+	-> df -h: mostra de forma mais fácil de compreender.
+	-> df -h (particao escolhida): mostra informações acerca da partição escolhida. Ex: df -h /dev/sda1
+	-> df -a: lista vários tipos temporários de sistema montados pelo Linux
+	-> df -T: mostra o tipo de FS usado em cada partição do sistema
+	-> df -T (partição): mostra o tipo de FS de uma partição específica. Ex: df -T /dev/sda1
+	-> df -t (tipo de FS): mostra quais partições utiizam o FS especificado. Ex: df -t tmpfs
+	-> df -i : mostra informações sobre inode (quanto já foi usado, quantos estão livres, etc)
+	
+. du: mostra informações lista cada diretório e o quanto estão usando. 
+	-> du -a: lista cada arquivo e cada diretório.
+	-> du -c: mostra o total de espaço utilizado
+	-> du -s: mostra um sumário de cada arquivo e diretório da pasta atual
+	-> du -s (diretorio): mostra info's do diretório indicado
+	-> du --max-depth = (nivel): mostra as informações até o nível máximo (de diretorios) especificado.
+
+. fsck: analisa uma partição e faz correção caso haja algum erro. Só funciona se a partição não estiver montada ou marcada apenas pra leitura.
+	-> fsck: analisa o FS que a partição está utilizando e acha qual fsck deve ser utilizado para efetuar as devidas correções. 
+	-> fsck.(tipo de FS): faz a checagem utilizando o fsck especificado. 
+	
+. dump2fs : usado para obter informações sobre uma determinada partição dos tipos ext2, ext3, ext4
+	-> dumpe2fs (particao): mostra várias informações detalhadas da partição
+	-> dumpe2fs -h (particao): mostra as info's de forma mais fácil
+	
+. xfs_info: usado para obter informações sobre uma determinada partição do tipo xfs
+	-> xfs_info (particao): mostra info's para uma partição do tipo xfs
+
+. xfs_metadump: faz uma espécie de "extrato", só funciona em partições que não estão montadas.
+	-> xfs_metadump (particao) (arquivo)
+
+. tune2fs: faz ajustes em partições do tipo ext2, ext3, ext4
+	-> tune2fs -L (nome desejado do label) (particao que quero definir um label): define um label para uma determinada partição. Ex: tune2fs "Particao Teste" /dev/sda1
+	-> tune2fs -i (TEMPO NOVO) (PARTICAO): muda o tempo de checagem da partição indicada para o tempo indicado como novo. Pode ser indicado o tempo em dias, semanas ou meses. Ex: tune2fs 1m /dev/sda1
+	-> tune2fs -c (MAXIMUM MOUNT COUNT) (PARTICAO): define um novo maximum mount count pra partição indicada. Ex: tune2fs -i 30 /dev/sda1
+	-> tune2fs -m(PORCENTAGEM) (PARTICAO): define a porcentagem da partição que será reservada para arquivos privilegiados. Ex: tune2fs -m1 /dev/sda1.
+	-> tune2fs -j (PARTICAO): habilita o journal em uma partição especificada. Se, por acaso, anteriormente a partição não possuísse journal (caso da ext2, por exemplo), então essa partição vai ser transformada em uma ext3. Esse comando é usado apenas para partições do tipo ext2, ext3, ext4. Ex: tune2fs -j /dev/sda1
+	
+. xfs_admin: equivalente ao "tune2fs -j", mas para partições do tipo ext2, ext3 e ext4.
+	-> xfs_admin -l (PARTICAO): mostra o label de uma partição
+	-> xfs_admin -L (nome do novo label) (partição): altera o nome do label da partição especificiada. 
+
+. debugfs: faz operações semelhantes as do tune2fs, mas com algumas diferenças com operações mais complexas
+	-> debugfs (particao): inicia o debugs na partição indicada.
+		-> stats: mostra informações detalhadas sobre a partição 
+		
+. xfs_db: equivalente ao debugfs, mas para partições do tipo xfs.

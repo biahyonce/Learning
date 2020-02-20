@@ -1,0 +1,29 @@
+Biblioteca estática: referencio uma biblioteca externa e essa biblioteca vai ser incorporada na minha API
+	-> Desvantagem: programa ficará maior 
+	-> Desvantagem: sempre que ha mudancas na biblioteca, preciso recompilar o codigo
+
+Biblioteca dinâmica: referencio a biblioteca externa e essa biblioteca vai ser carregada separadamente
+	-> Vantagem: API menor
+	-> Vantagem: mudanças na biblioteca nao afetam o codigo
+
+--- COMANDOS RELACIONADOS
+. ldd (CAMINHO): mostra quais bibliotecas sao utilizadas por determinada API indicada pelo seu caminho
+	-> ldd -v (CAMINHO): mostra mais detalhes
+
+.ldconfig : recompila as infos contidas em ld.so.conf e ld.so.conf.d e gera um novo ld.so.conf e ld.so.conf.d
+	-> ldconfig -p: lista todas as bibliotecas ativas no momento
+	-> ldconfig -p | grep (CAMINHO) : conferir se a biblioteca indica pelo caminho esta incluida
+---> ld.so : mapeia as bibliotecas
+
+--- DIRETORIOS/ARQUIVOS RELACIONADOS
+. /lib : diretorios com varias bibliotecas
+. /usr/lib : diretorios com varias bibliotecas
+. /etc/ld.so.cache: onde ficam mapeadas todas as bibliotecas conhecidas pelo Linux
+. /etc/ld.so.conf : pode indicar caminhos onde o Linux vai encontrar novas/outras bibliotecas 
+
+--> Para incluir novas bibliotecas, pode-se criar um arquivo em /etc/ld.so.d
+--> Outro modo de adicionar uma biblioteca eh incluir o diretorio dessa biblioteca no arquivo ld.so.conf
+
+
+--> Caso o usuario nao seja root, ele pode adicionar uma biblioteca a sua sessao fazendo:
+	->export LD_LIBRARY_PATH=(CAMINHO)

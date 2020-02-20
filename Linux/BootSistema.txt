@@ -1,0 +1,24 @@
+BIOS: Localiza e executa a MBR
+
+MBR: Executa o boot loader
+
+Boot Loader (GRUB/LILO): Seleciona e executa o kernel e o initrd
+
+Kernel: executa o /sbin/init
+
+Init: Inicia os programas do runlevel/target definido
+   -> Possui ID 1
+   -> Possui RunLevels ou Targets que definem diferentes modos de operacao e o grupo de servicos que sera utilizado
+   -> Principais INITs: SYstemV(SysV), systemd, Upstart
+
+--> O Boot Loader mais utilizado eh o GRUB
+--> Initrd/initramfs: eh carregado pelo boot loader para dar suporte ao kernel, pode conter modulos. Eh um filesystem root temporario
+
+Sequencia de boot: BIOS-> MBR -> Bootloader -> Kernel -> Init
+
+
+---> Comandos relacionados ao Boot do Sistema
+dmesg: arquivo de log que mostra o processo de boot
+
+---> Arquivos relacionados ao Boot do Sistema
+. /var/log/messages ou /var/log/dmesg : arquivos que mostram o processo de boot

@@ -1,0 +1,86 @@
+DESIGN DO LAYOUT DO HD
+- Considerando uma situacao em que temos dois discos, entao:
+Disco sda:
+. Se houver particoes, os nomes serao: sda1,sda2,sda3,etc...
+. Posso associar diretorios a particoes
+
+Disco sdb:
+. Se houver particoes, os nomes serao: sdb1,sdb2,sdb3,etc...
+. Posso associar diretorios a particoes
+
+--- VANTAGENS DO PARTICIONAMENTO
+. Gerenciamento do espaco em disco
+. Diferentes tipos de FileSystem para cada particao
+. Protecao contra erros do disco
+. Diferentes niveis de seguranca
+. Backup facilitado
+
+--- SISTEMAS DE PARTICIONAMENTO
+. MBR: Master Boot Record
+    -> Padrao, mas eh limitado a 2TB por particao
+
+. GPT: GUID Partition Table
+    -> Utilizado quando sao necessarias particoes maiores que 2TB
+    -> Maioria dos sistemas com EFI utilizam GPT
+
+--- PARTICOES MBR
+. Tipos de particao:
+    -> Primaria
+    -> Extendida (tipo de primaria): contem as particoes logicas
+	-> Logica
+
+. Limitada a 4 particoes primarias ou 3 primarias + 1 extendida
+. Primarias numeradas de 1 a 4. Ex: sda1,sda3,sda4
+. Logicas numeradas a partir de 5. Ex: sda5, sda6,sda7
+
+-> Na extendida pode ter quantas particoes quiser
+-> Ainda existe a limitacao a 4 primarias e 1 delas pode ser a extendida
+-> A particao sda2, normalmente, eh a extendida (caso exista)
+-> Os nomes das extendidas precisam estar em sequencia, ex: sda5,sda6,sda7...
+
+--- PARTICOES NO LINUX
+. A particao / eh a primeira montada pelo kernel
+. Ao menos 2 particoes devem ser criadas: / e swap
+. Codigo dos tipos de particao:
+	-> 0x83 = Linux FileSystem
+	-> 0x82 = Linux swap
+
+-> swap: espaco no HD que serve como RAM temporaria caso a memoria RAM fique sem espaco
+-> quando usa a swap, obviamente, o desempenho cai
+
+--- PRINCIPAIS PARTICOES LINUX
+. /home: diretorio que fica os arquivos dos usuarios
+. /var: diretorio que ficam os arquivos de fila de execucao por exemplo
+. /tmp: diretorio que possui arquivos de logs geralmente
+. /boot: diretorio que possui os arquivos do kernel, initrd (eh uma particao pequena)
+. /usr: diretorio que possui arquivos de aplicacao
+
+--- DIRETORIOS QUE NAO PODEM SER MONTADOS FORA DO /
+. /etc: diretorio que possui a maioria dos dados necessarios para montar outras particoes
+. /bin: 
+. /sbin:
+. /dev:
+. /proc:
+. /sys:
+
+
+--- LVM - Logical Volume Management
+. Metodo para alocar espaco dos discos em volume logico
+. Facilita o redimensionamento (realocacao de espaco)
+
+. Elementos:
+	-> VG: Volume Group
+	-> PV: Phisical Volume
+	-> LV: Logical Volume
+	-> PE: Physical Extent
+	-> LE: Logical Extent
+
+
+--- PRINCIPAIS COMANDOS ASSOCIADOS A DESIGN DO LAYOUT DO HD:
+.df : lista as particoes do sistema (nao mostra o swap)
+	-> df -h: lista de forma "humanamente" legivel (principalmente em questao de unidades)
+
+. cat /proc/swaps : ve o arquivo de swap
+
+. fdisk : ve,cria ou gerencia particoes do sistema
+	-> fdisk -l: mostra as particoes que tenho no momento

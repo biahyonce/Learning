@@ -1,0 +1,137 @@
+BIOS: firmware da placa-mae usado para gerenciar os dispositivos conectados à placa mãe
+POST: testa os dispositivos
+
+--> EFI e UEFI são as novas "BIOS" com novas funcionalidades
+
+IRQ: Interrupt Request (sinais de interrupção)
+-> Não pode haver mais de um dispositivo usando a mesma IRQ
+---> Principais IRQ:
+IRQ 0: Sinal de clock da placa-mãe
+IRQ 1: Teclado (*IMPORTANTE*)
+IRQ 2: Cascateador de IRQs
+IRQ 3: Porta serial 2 (RS-232) (*IMPORTANTE*)
+IRQ 4: Porta serial 1 (RS-232) (*IMPORTANTE*)
+IRQ 5: Livre
+IRQ 6: Drive de disquetes
+IRQ 7: Porta paralela (impressora)
+IRQ 8: Relógio do CMOS
+IRQ 9: Placa de vídeo
+IRQ 10: Livre
+IRQ 11: Controlador USB
+IRQ 12: Porta PS/2
+IRQ 13: Coprocessador aritmético
+IRQ 14: IDE Primária (*IMPORTANTE*)
+IRQ 15: IDE Secundária (*IMPORTANTE*)
+
+-> Por causa do IRQ2, a sequencia eh: 1,2,8-15,3-7
+
+--> COMANDOS RELACIONADOS AOS IRQs
+. cat /proc/interrupts: ve o arquivo que mostra as IRQs usada etc
+
+
+ENDERECOS DE I/O:
+. Lista de enderecos de memoria utilizadas para comunicao entre CPU e os demais dispositivos
+
+--> COMANDOS RELACIONADOS (so mostra certo no root)
+. cat /proc/ioports
+
+ENDERECOS DMA:
+. Canal que permite que os dispositivos transmitam os dados diretamente para memoria sem utilizar CPU
+. Nao eh utilizado por todos os dispositivos
+
+--> COMANDOS RELACIONADOS AO DM
+. cat /proc/dma
+
+BARRAMENTOS:
+. Interface de comunicacao fisica entre os dispositivos e a placa-mae
+
+-> PCI: Peripheral Component Interconnect
+-> USB: Universal Serial Bus
+
+--> COMANDOS RELACIONADOS A BARRAMENTOS
+. lspci: ve o que esta conectado ao PCI
+   .lspci -s (CODIGO DO DISPOSITIVO) -v: ve os detalhes do dispositivo conectado no PCI
+    
+. lsusb: ve o que esta conectado ao USB
+   .lsusb -s (CODIGO DO BUS):(CODIGO DO DEVICE) -v : ve os detalhes do dispositivo conectado a USB
+
+PARTICOES VIRTUAIS:
+. /proc: Informacoes dos processos ativos e recursos do hardware
+. /sys: Informacoes sobre dispositivos de hardware (sysfs)
+. /dev: Referencias aos dispositivos do sistema, inclusive de armazenamento (udev)
+
+-> udev = Device Manager
+-> dbus/hald = Comunicacao entre processos. Informa aos processos a situacao dos dispositivos de hardware (Eh um processo)
+-> Essas particoes sao montadas dinamicamente
+-> No Linux, tudo eh arquivo ou processo
+-> Um dispositivo de hardware, no Linux, eh um arquivo (estao no /dev)
+
+-> ColdPlug x HotPlug
+. ColdPlug: precisa desligar a maquina para poder conectar um dispositivo ColdPlug
+. HotPlug: nao precisa desligar a maquina para poder conectar um dispositivo HotPlug
+
+DISPOSITIVOS DE ARMAZENAMENTO:
+(P)ATA - Parallel Advanced Technology Attachment
+-> Tambem chamado de IDE, que eh a referencia a interface de conexao
+-> Sistema master/slave: 2 discos por cabo: primeiro cabo-> master, segundo cabo->slave
+-> Um drive de CD/DVD conectado a um IDE tambem sera referenciado como hdX
+-> No Linux, eh mapeado como:
+. /dev/hda ou sda - master
+. /dev/hdb ou sdb - slave
+. /dev/hdc ou sdc - master
+. /dev/hdd ou sdd - slave
+
+SERIAL - Serial Advanced Technology Attachment
+-> 1 disco por cabo
+-> Mais rapido que o PATA
+-> Mapeado no Linux como:
+. /dev/sda - Primeiro disco
+. /dev/sda - Segundo disco
+. /dev/sdc - Terceiro disco
+
+SCSI - Small Computer System Interface
+--> Tipos:
+. 8 bits (permite 7 dispositivos + 1 controlador)
+. 16 bits (permite 7 dispositivos + 1 controlador)
+
+--> SCSI_ID
+. Canal - Identificador de cada adaptador
+. ID - Identiificador de cada dispositivo
+. LUN - Numero Logico da Unidade
+
+--> No Linux, sao mapeados como:
+. /dev/sda - Primeiro disco
+. /dev/sda - Segundo disco
+. /dev/sdc - Terceiro disco
+
+--> Comandos Relacionados:
+. cat /proc/scsi/scsi 
+
+OUTROS DISPOSITIVOS
+-> /dev/fd0 - Disquete/Floppy Disk
+-> /dev/scd0 - SCSI CD-ROM
+-> /dev/sr0 - SCSI DVD
+-> /dev/cdrom - Normalmente criado como link para o devide do CDROM
+-> /dev/dvd - Normalmente criado como link para o devide do dvd
+
+---> COMANDOS RELACIONADOS
+. fdisk -l : mostra os discos utilizados no sistema
+. dmesg : eh um log que mostra todas as info que foram processadas durante o boot
+
+MODULOS:
+-> Equivalente aos drivers do Windows
+-> Localizados no /lib/modules/
+-> Arquivo /etc/modules : podemos definir aqui modulos que eu quero que carregue sem que o Linux tenha que carrega-los sozinho
+-> .ko: extensao de um modulo
+
+--> COMANDOS RELACIONADOS:
+. lsmod: lista modulos carregados no momento
+. modinfo (NOME DO MODULO): mostra info de um modulo especifico
+. rmmod (NOME DO MODULO): remove um modulo que esta carregado
+. insmod (ARQUIVO COMPLETO DO MODULO QUE QUERO INSERIR): insere um modulo sem carregar as dependencias
+. modprobe (NOME DO MODULO): insere um modulo e carrega suas dependencias
+. modprobe -r (NOME DO MODULO): remove o modulo e descarrega suas dependencias
+
+
+--> OUTROS COMANDOS
+. cat /proc/cpuinfo: info da CPU

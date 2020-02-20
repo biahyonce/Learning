@@ -1,0 +1,70 @@
+--- PADRAO DEBIAN
+. Arquivos: .deb
+. Gerenciador de Pacotes: dpkg
+. Gerenciador + Repositorio: apt-get
+. Outros comandos:
+	-> dpkg-reconfigure
+	-> apt-cache
+	-> dselect
+	-> aptitude
+	-> alien
+
+. Padrao nome do arquivo: name_version.revision-debiancodename_architecture.deb samba_3.6.6-6+deb7u12_i1386.deb
+
+--- CONCEITOS IMPORTANTES
+. Cada sistema deve usar um sistema de gerenciamento unic
+. Um pacote eh um conjunto de arquivos relacionados a uma aplicacao: executaveis, cfgs, bibliotecas, manuais, etc, alem de informacoes sobre dependencias
+. Os gerenciadroes de pacotes mantem uma base de dados relacionando todos os pacotes, seus arquivos e dependencias
+
+--- COMANDOS RELACIONADOS
+. dpkg:
+	-> dpkg -l: lista os pacotes instalados
+	-> dpkg -l (PACOTE): mostra infos do pacote indicado caso esteja instalado
+	-> dpkg --get-selecionts: mostra todos os pacotes instalados
+	-> dpkg -I (NOME DO PACOTE): mostra as informacoes do pacote
+	-> dpkg --contents (NOME DO PACOTE): mostra lista de arquivos dentro desse pacote (os que serao instalados)
+	-> dpkg -i (NOME DO PACOTE): instala o pacote
+	-> dpkg -L (NOME DO PACOTE): mostra quais arquivos o pacote instalou
+	-> dpkg -s (NOME DO PACOTE): mostra o status do pacote
+	-> dpkg -S (ARQUIVO): mostra qual pacote criou esse arquivo, geralmente o ARQUIVO=caminho do arquivo
+	-> dpkg -r (NOME DO PACOTE): remove o pacote mas mantem algumas infos (geralmente de configuracao) do pacote na base de dados (como desinstalado)
+	-> dpkg -P ou dpkg --purge: remove tudo que esta relacionado ao pacote
+
+
+. apt: Consulta uma base de dados para verificar se tem o pacote que eu quero e faz o download. Alem disso, faz a instalacao das dependencias tambem. Eh uma instalacao mais completa que o dpkg
+	-> apt-cache: mostra as info da base de dados
+		-> apt-cache pkgnames: lista os pacotes da base de dados
+		-> apt-cache show (PACOTE/PROGRAMA): mostra infos do PACOTE/PROGRAMA especificado
+	 	-> apt-cache depends (PACOTE/PROGRAMA): mostra quais os pacotes que o PACOTE/PROGRAMA depende
+	
+	-> apt-get: consulta o arquivo fonte de pacotes e faz o download/instalacao dos pacotes
+		-> apt-get update: vai ver o que tem no arquivo source.list e atualiza as informacoes, NAO FAZ DOWNLOAD DE PACOTES, ele so atualiza a base de dados do source.list
+		-> apt-get upgrade: pega todos os softwares instalados e verifica se possui alguma versao mais nova e as instala. 
+		-> apt-get dist-upgrade: faz o mesmo que o upgrade, mas verifica se ha conflitos
+		-> apt-get install (PACOTE): instala tal pacote, instala as dependencias tambem
+		-> apt-get remove (PACOTE): remove, mas mantem uma base de dados com algumas informacoes (geralmente de configuracao) do pacote especificado
+		-> apt-get purge (PACOTE): remove tudo relacionado ao pacote especificado
+		-> apt-get check : checa se esta tudo certo no base de dados
+		-> apt-get clean: faz limpeza na base de dados
+		-> apt-get -d install (PACOTE): faz downloado do programa mas nao instala, esse programa vai pro /var/cache/apt/archieves
+
+--> apt-get install (PACOTE) em um PACOTE ja instalado, o apt-get informa que ja esta instalado, caso tenha novas versoes, ele instala.
+
+--- OUTROS COMANDOS (menos importantes):
+. dpkg-reconfigure (PACOTE): usado para pacotes que exigem interacao com o usuario (ex: instalacao do Linux)
+. dselect : interface grafica do apt (para instalar, update,upgrade,etc...), abre um menuzin
+. aptitude : interface grafica do apt, eh uma interface melhor que a do dselect, mas possui a mesma funcao
+	-> aptitude update: faz a mesma coisa que o apt-get update
+	-> aptitude safe-upgrade : faz o mesmo que o apt-get dist-upgrade
+	-> aptitude search (NOME DO PACOTE): faz uma busca de tudo que tenha esse nome relacionado
+	-> aptitude remove ou purge: faz a mesma coisa que apt-get remove apt-get purge
+
+. alien: usado para arquivos que nao sao .deb (ex: .rpm, etc), faz a conversao deles pra .deb
+	-> alien -r ou --to-rpm (NOME DO PACOTE): converte de .deb pra rpm
+	-> alien -t ou --to-tgz (NOME DO PACOTE): converte de .deb para tgz
+	-> alien -i (NOME DO PACOTE) : instala (mesmo que nao seja .deb), internamente converte pra .deb e instala
+	-> alien (NOME DO PACOTE que nao eh .deb): converte o pacote pra .deb
+
+
+--- DIRETORIOS/ARQUIVOS ASSOCIADOS
+. /etc/apt/source.list : arquivo que contem todas as fontes de pacote, eh esse arquivo que o apt-get consulta

@@ -1,0 +1,19 @@
+cd:
+ls:
+file:
+touch: cria arquivos ou modifica seu ultimo acesso
+cp: copia arquivos (-r para copiar direitos)
+mv: move ou renomeia arquivos
+rm: remove arquivos (-r pra remover diretorios)
+rmdir: remove diretorios vazios
+mkdir:a
+find:
+tar: agrupa arquivos (pode usar parametros pra faze-lo compactar usando gzip,bzip2 ou xz)
+gzip: compacta arquivos (-d para descompactar)
+bzip2: compacta arquivos (-d para descompactar)
+xz: compacta arquivos (-d para descompactar)
+cpio: faz o mesmo que o tar, mas possui parametros diferentes (passa uma lista de arquivos a serem agrupados)
+dd: copia particoes (pode ser usado para criar uma imagem, por exemplo) -> copia byte a byte 
+
+--> COMPACTAR COM GZIP: tar zcvpf arquivos-cron.tgz /etc/*cron*
+--> DESCOMPACTAR COM GZIP: tar zxvpf ../arquivos-cron.tgz

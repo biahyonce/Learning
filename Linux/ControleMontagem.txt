@@ -1,0 +1,34 @@
+--- TEORIA RELACIONADA
+. /etc/fstab: arquivo com as outras partições. Esse arquivo é utilizado pelo kernel para saber quais outras partições devem ser montadas. 
+. UUID: identificação única dos dispositivos no Linux
+
+--- COMANDOS RELACIONADOS
+. mount: monta uma partição temporára
+	-> mount: mostra tudo que está montado no sistema
+	-> mount -a : monta tudo que está no /etc/fstab, ideal para quando eu preciso atualizar as informações editadas nesse arquivo.
+	-> mount (particao) (destino): monta a partição indicada no destino indicado. Ex: mount /dev/sdb2 /tmp/teste_mount 
+	-> mount (particao): caso o destino da partição já esteja indicado no arquivo /etc/fstab, não é necessário deixar o destino explicito no comando. 
+	-> mount -r (particao): monta uma particao apenas pra leitura.
+	
+
+---> para montar as partições de forma permanente, deve acrescentar o caminho dela no arquivo /etc/fstab
+---> no arquivo /etc/fstab, indicar uma nova partição da seguinte forma: <file system> <mount point> <type> <options> <dump> <pass>
+ 	---> <file system> : particao ou UUID da particao
+	---> <mount point> : ponto de montagem, ou seja, onde a partição será montada
+	---> <type> : tipo de partição (ex: swap ou auto)
+	---> <options> : setar opções, tais como dono dos arquivos, se é de escrita, leitura ou ambos. O normal é utilizar essa opção como "defaults"
+	---> <dump> : pode ser utilizado pra fazer backup, mas normalmente não é utilizado. Geralmente, é utilizado o valor 0 (que indica que esse parâmetro não será utilizado, ou seja, não haverá backup)
+	---> <pass> : faz checagem (fsck) no inicio do boot. Se for marcado como 0, essa checagem não é feita. A primeira checagem é feita no diretorio raiz (/), os números subsequentes correspondem à sequência que essa checagem pode ser realizada. 
+	
+---> Se eu incluir a partição de swap no /etc/fstap, não preciso utilizar o comando "swapon"
+---> Para partições swap, não é necessário indicar qual será o destino, então é colocado "none".
+---> noauto: indica que a partição não será montada automaticamente.
+---> users: indica que qualquer usuário pode montar e qualquer usuário pode desmontar
+---> user: indica que qualquer usuário pode montar, mas apenas quem montou pode desmontar.
+---> A lista de <options> é separada por vírgulas
+
+. unmount: desmonta uma partição temporária
+	-> unmount -a: desmota todas as partições indicadas no /etc/fstab que NÃO ESTÃO SENDO UTILIZADAS no momeneto.
+	-> unmount (particao ou destino): desmonta a particao ou desmonta a particao que esta presente no destino. Ex: unmount /dev/sdb2 ou unmount /tmp/teste_mount
+	
+

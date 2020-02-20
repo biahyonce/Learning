@@ -1,0 +1,67 @@
+PID = processo atual, PPID = Parent Process ID (processo pai)
+--> Primeiro processo iniciado no Linux eh o INIT, o qual recebe PID  = 1
+--> INIT roda, mas na verdade aponta pro systemd, logo, quem recebe PID=1 eh o systemd
+
+ps: ve todos os processos em execucao no Linux no terminal corrente
+--> principais opcoes ps: -u, -x, -a, -f, -l, -w, u -C
+
+pstree: mostra os processos no formato de arvore (hierarquia de processos)
+--> principais opcoes pstree: -p, 
+
+pgrep: mostra o PID de um processo de acordo com os parametros fornecidos
+--> principais opcoes pgrep: bash
+
+top: mostra os processos em execucao em tempo real
+--> principais opcoes top: 
+	SHIFT+M: ordena os processos de acordo com o uso da memoria
+	SHIFT+C: ordena os processos de acordo com o uso da CPU
+	apertar u: aperta e digita o user que eu quero ver
+	apertar r: muda prioridade
+	apertar n: muda a quantidade de processos a serem vistos
+	apertar k: mata o processo que eu escolher
+	-b: fica jogando na tela de forma que nao eh iterativa (util pra jogar essa saida em um txt)
+	
+--> load average: processos na fila de execucao(formato: ultimo minuto, 5 minutos, 15 minutos)
+
+kill: manda sinais para processos pelo seu PID(nao necessariamente matar)
+--> principais sinais: 
+	SIGHUP: termina/reiniciar um processo ou fazer que o processo releia suas configs
+	SIGINT: interrompe o processo (CTRL + C, por exemplo)
+	SIGQUIT: fecha o processo
+	SIGKILL: mata um processo abruptamente (unico sinal que nenhum processo pode ignorar)
+	SIGTERM: solicita ao processo que ele finalize
+
+-- como mandar sinais:
+	kill -s (NOME DO SINAL) (PID)
+	kill -s (NUMERO DO SINAL) (PID)
+	kill (-NUMERO DO SINAL) (PID)
+	kill (-NOME DO SINAL) (PID)
+--> digitar -l mostra todos os sinais que posso mandar atraves do kill
+
+killall: mata processos por meio do seu nome
+
+pkill: manda sinais para processos pelo seu NOME, parecido com o kill
+
+uptime: mostra a quanto tempo a maquina esta ativa
+
+free: mostra a quantidade de memoria e swap utilizadas pelo sistema 
+--> principais opcoes: -m, 
+
+--> diferenca entre used e free: 
+	used-> assumiu aquela memoria e vai utiliza-la quando precisar (nao necessariamente toda aquela memoria esta em uso, mas que esta alocada pra quando precisar)
+	swap-> espaco em HD, usado quando a memoria acaba (eh preocupante)
+
+screen: ferramenta que possibilita gerenciar e trabalhar em varias abas (CTRL + A + N: navega entre as abas)
+
+jobs: mostra os jobs/tarefas que estao rodando em background
+
+bg (colocar em background quando ta interrompido): coloca o ultimo processo interrompido funcionando em background
+	--> opcao: bg [opcao do process] : bota o processo optado em bg 
+
+fg: coloca o ultimo processo que eu to trabalhando funcionando em foreground
+	--> opcao: fg [opcao do processo]: bota o processo optado em fg
+
+nohup: evitar que processos morram caso a sessao encerre -> faz com que o processo nao aceite esse sinal
+e evita que o programa jogue informacoes na tela enquanto to usando o terminal (ele joga pra saida nohup.out)
+
+

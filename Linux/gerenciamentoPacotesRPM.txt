@@ -1,0 +1,35 @@
+--- COMANDOS
+. rpm: equivalente ao dpkg no Debian
+	-> rpm -qa : lista todos os pacotes instalados na maquina
+	-> rpm -qa (PACOTE) : lista as informacoes que contenham a informacao que contenha o pacote indicado
+	-> rpm -qi (PACOTE): lista informacoes sobre a instalacao do pacote indicado
+	-> rpm -ql (PACOTE): lista os arquivos que pertencem a esse pacote
+	-> rpm -qc (PACOTE): lista apenas os arquivos de configuracao pertencentes a esse pacote
+	-> rpm -qd (PACOTE): lista apenas os arquivos de documentacao pertencentes a esse pacote
+	-> rpm -qf (ARQUIVO): mostra qual pacote originou esse arquivo, ARQUIVO=caminho do arquivo (geralmente)
+	-> rpm -qlp (PACOTE.rpm): lista os arquivos que estao dentro desse .rpm
+	-> rpm -qip (PACOTE.rpm): mostra o que vai ser instalado por esse .rpm
+
+
+	-> rpm -i (PACOTE.rpm): instala o pacote .rpm, mas nao resolve dependencias
+	-> rpm -ivh (lista de PACOTE.rpm): instala os pacote.rpm mostrando os detalhes da instalacao (v) e os # de progresso ### (h), POSSO INDICAR MAIS DO QUE UM PACOTE! 
+	-> rpm -ivh --nodeps (PACOTE.rpm): instala ignorando as dependencias (entende que o pacote pode nao funcionar corretamente)
+	-> rpm -ivh --force (PACOTE.rpm): instala mesmo que ja esteja instalado (sobrescrevendo)
+	-> rpm -ivh --test (PACOTE.rpm): testa a instalacao, mas nao faz a instalacao
+	-> rpm -U (PACOTE.rpm): faz o update desse .rpm
+	
+	-> rpm -e (PACOTE): desintala um pacote
+	-> rpm -evh (PACOTE): desinstala mostrando as informacoes e os # de progresso
+	-> rpm -evh --test (PACOTE): so testa a desintalacao, mas nao desinstala de fato
+	-> rpm -evh --nodeps (PACOTE): desinstala o pacote mesmo que alguma outra aplicacao o use
+ 	
+	-> rpm -V (PACOTE): testa se o pacote esta consistente	
+	-> rpm --checksig (PACOTE.rpm): checa se o pacote esta integro em relacao a assinatura, criptografia,etc
+
+	-> rpm2cpio (PACOTE.rpm) > (NOME DO ARQUIVO QUE IREI GERAR): transforma um .rpm em .cpio
+	-> cpio -i --make-directories < (NOME DO ARQUIVO GERADO): extrai os arquivos do .cpio gerado e cria os diretorios caso necessario 
+
+	-> rpm -F (PACOTE): atualiza um pacote apenas se ja estiver instalado
+
+---> Todas as opcoes do -i valem para o -U
+---> Se tentar desinstalar um pacote que outra aplicacao depende usando o "rpm -evh", vai dar erro e nao vai desinstalar

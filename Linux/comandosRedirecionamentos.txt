@@ -1,0 +1,32 @@
+> : pra saida: cria ou sobrescreve um arquivo com a saida (pode ser usado como "1>")
+>> : pra saida: vai inserir o resultado no fim do arquivo e nao sobrescreve (pode ser usado como "1>>")
+
+---- > Esse "1" indica stdout e pode ser omitido no comando
+---- > Se der um erro, apenas o > ou >> nao coloca a saida no arquivo que a gente indicar
+---- > Pra redirecionar a saida de erro, tem que usar "2>>" ou "2>"
+---- > Para que redirecione tanto se der erro quanto se tiver sucesso, precisa indicar uma saida tanto pro 1> quanto pro 2> (ou 1>>/2>>) 
+---- > Para redirecionar tanto erro quanto sucesso pra um mesmo arquivo, faz: "(comando) > (arquivo de saida) 2>&1"
+---- > Caso "alunos.txt" ja exista e eu quiser ordenar, por exemplo, primeiro tem que fazer "sort alunos.txt > alunos-temp" e depois copiar os dados desse temp pra alunos com "mv alunos-temp alunos.txt". Se fizer "sort alunos.txt > alunos.txt", o resultado sera um alunos.txt vazio porque o ">" vai sobrescrever o arquivo e quando o sort vier ordernar, vai ordenar um arquivo vazio.
+
+< : pra entrada: redireciona a entrada, faz: "(comando) < (arquivo de entrada)"
+| : pra entrada: redireciona a entrada, faz: "(comando1 que vai gerar a entrada) | (comando que vai usar o comando1 como entrada)"
+
+tee: mostra na tela enquanto redireciona a saida, faz: "(comando) | tee (arquivo de saida)"
+xargs: usa o outro comando como entrada, faz: "(comando1) | xargs (comando2) (usa comando1 como entrada)"
+` `: mostra o resultado do comando que esta entre crases, ex: "echo "Kernel: " `uname-r`"
+$( ): faz o mesmo que a crase, ex: "echo "Kernel: " $(uname -r)"
+
+<< :  chamado de here-docs, usado para inserir conteudos interativamente ate que o fim seja informado
+<<< : chamado de here-string, usado para consertar um problema como o abaixo:
+1- echo "hello world" | read first second
+2- echo $second $first
+
+Nesse caso, a saida em 2 sera um espaco!
+
+Agora,
+3- read first second <<< "hello world"
+4- echo $second $first
+
+Nesse caso, a saida 4 sera "world hello"
+
+Isso ocorre porque quando executamos o comando 1, ele eh lido como pipeline e, nesse caso, roda em um subshell, mas as minhas variaveis nao estao no mesmo shell quando executo o comando 2. Agora, no comando 3 eu tenho as variaveis no meu shell, logo quando eu executo o comando 4 da certo! 

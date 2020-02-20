@@ -1,0 +1,18 @@
+Definicao dos atributos:
+prioridade (pr): prioridade de um processo no sistema
+nice (ni): propriedade que permite ao usuario influenciar a prioirdade 
+
+Comandos:
+nice: definir o nice de um comando assim que ele eh iniciado (vai de -20 ate +19)
+   -> Valor negativo = mais prioridade, valor positivo = menos prioridade (menor valor = mais prioridade)
+   -> Apenas o root pode aumentar a prioridade de um projeto
+   -> Usuarios podem diminuir a prioridade dos SEUS projetos
+   -> Como usar, ex: nice -n -15 firefox OU nice --15 firefox OU nice --adjustment=-15 firefox
+   -> Quando omite o -n e a prioridade eh negativa, o -- duplica!
+
+renice: alterar o nice de um processo que ja esta em execucao ()
+   -> Como usar: renice -n -8 (PID) OU renice -8 (PID)
+   -> Alterar pra um grupo: renice -u (GRUPO) -n 5
+
+--> Se iniciar um processo so com "nice (PROCESSO)", a prioridade dele vai ser 10
+--> Se iniciar um processo so com "(PROCESSO)", ex: firefox &, a prioridade vai ser 0

@@ -1,0 +1,25 @@
+Inicio: abre sempre no modo de navegacao
+Apertar i: iniciar insercao de dados
+/(O que eu quero procurar): comeca procurando de cima pra baixo
+/?(O que eu quero procurar): comeca procurando de de baixo pra cima (do ponto onde eu to pra cima)
+":w" : salva o arquivo
+":wq" ou ":x" : salva e sai
+":!q" : sai sem salvar
+"!" : ignora avisos
+Apertar shift + zz: salva e sai
+"! (DIGITAR UM COMANDO DO SHELL)": vai executar o comando no SHELL e dar a opcao de voltar pra edicao do arquivo
+
+Apertar h: vai movendo o caracter "para tras" (pra esquerda)
+Apertar j: vai pra proxima linha
+Apertar k: sobe uma linha
+Apertar l: eh o contrario do "h", vai movendo "pra frente" (pra direita)
+Apertar o: comeca a editar na linha de baixo, tipo "\n"
+Apertar shift+O: comeca a editar na linha de cima
+Apertar a: comeca a editar a partir do proximo CARACTER
+Apertar shift+A: comeca a editar no fim da linha
+Apertar cc: recorta a linha que eu estou e entra direto no modo de edicao
+Apertar dd: recorta a linha que estou, mas nao entra no modo de edicao
+Apertar d3d: recorta as 3 linhas a partir da linha que eu estou
+Apertar yy: copia o conteudo da linha que estou, nao entra direto no modo de edicao
+Apertar y3y: copia as 3 linhas a partir da linha que eu estou
+Apertar p: cola o conteudo anteriormente recortado

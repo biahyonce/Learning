@@ -1,0 +1,87 @@
+Principais gerenciadores de initicializacao:
+. SystemV(SysV)
+. systemd
+. Upstart
+
+- SystemV:
+. RunLevel: nivel de execucao do sistema
+. Cada runlevel carrega um conjunto de programas, scripts e servicos
+. Cfg principal: /etc/inittab
+. Diretorios de scripts: /etc/init.d/, /etc/rc.d/
+
+ID
+0--------Desligamento
+1,s,S----SIngle user
+2--------Multiusuario(sem rede)
+3--------Multiusuario(com rede)
+4--------Multiusuario(definido pelo usuario)
+5--------Multiusuario(com rede e grafico)
+6--------Reinicializacao
+
+
+---> Comandos relacionados ao SysV:
+. less /etc/inittab
+. cd /etc/init.d : contem arquivos referentes aos servicos e scripts de inicializacao referentes a cada servico
+. cd /etc : mostra os diretorios de inicializacao
+   -> Arquivos que comecam com K = kill e S = start
+
+. /etc/init.d/(SERVICO) start: inicia um servico no sysV
+
+. runlevel: mostra qual runlevel estou usando
+. init (RUNLEVEL DESEJADO): comando para mudar de runLevel
+. telinit (RUNLEVEL DESEJADO): faz o mesmo que o init
+
+- Systemd
+. Melhorias como paralelizacao, uso do dbus, etc
+. Conceito de unidade (Units)
+. Unidade = Nome.Tipo (ex: httpd.service)
+. Tipos podem ser: service, socket, device, mount,automount, target (equivale ao runlevel), snapchat
+
+--> Target equivale ao runlevel
+--> Target possuem links que fazem a compatibilidade com os runlevels do sysV
+
+--> Principais diretorios/arquivos associados ao systemd:
+. /lib/systemd/system : contem arquivos de configuracao das unidades
+. /etc/systemd/system : contem arquivos de configuracao de unidades tambem
+
+--> Comandos relacionados ao systemd:
+. systemctl : consulta ou envia comandos de controle para o gerenciador systemd
+    -> systemctl list-units: lista todas as unidades
+    -> systemctl reboot: reinicia a maquina
+    -> systemctl poweroff: desliga a maquina
+    -> systemctl set-default multi-user.target: define o default como multi-user.target
+    -> systemctl isolate (NOME) : inicia uma unidade e para todas as outras
+    -> systemctl default: inicia a unidade default
+    -> systemctl (OPERACAO) (SERVICO): faz uma determinada operacao em um servico. Ex: systemctl status cron.service
+
+
+- Upstart
+. Mantem compatibilidade com o sysV e systemd
+. Configuracoes ficam em /etc/init
+
+--> Principais comandos relacionados ao Upstart
+. initctl list     :   
+. start (SERVICO)  : 
+. stop (SERVICO)   :
+. status (SERVICO) :
+
+
+
+---> Comandos:
+. shutdown : usado para desligar ou reiniciar a maquina
+    -> Quando um shutdown eh dado, todos os processos da maquina recebem um sinal de SIGTERM e SIGKILL
+    -> Eh possivel programar a reinicializacao/desligamento
+    -> Principais opcoes: 
+      -> shutdown: desliga daqui 1min
+      -> shutdown -c: cancela o comando shutdown
+      -> shutdown -r: reinicia a maquina
+      -> shutdown -h: desliga o Linux, mas nao desliga a maquina
+      -> shutdown -r +(TEMPO EM MINUTOS): agenda a reinicializacao para um tempo em minutos
+      -> shutdown (HORA:MINUTOS): programa um deslgiamento para a hora passada. Ex: shutdown 18:00
+
+. reboot: reinicia a maquina
+. halt: desliga o Linux sem desligar a maquina
+. poweroff: desliga Linux e maquina
+. wall : manda mensagem para todos os usuarios do sistema
+
+. stat /proc/1/exe: verifica se estou usando systemd,sysV ou upstart

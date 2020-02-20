@@ -1,0 +1,14 @@
+--- TEORIA RELACIONADA
+
+
+--- COMANDOS RELACONADOS
+. parted: comando utilizado para manipulação de partições (similar ao fdisk)
+	->  parted (partição): escolhe a partição a ser trabalhada
+		-> p: lista partições do sistema
+		-> resizepart (numero da particao) (novo numero final): ajusta o tamanho de uma partição
+		-> quit: sai e salva
+		
+. gparted: é o parted de forma gráfica
+
+
+---> Geralmente, o parted/gparted é mais lembrado por conta da possibilidade de usar o comando "resize"

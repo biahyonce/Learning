@@ -1,0 +1,53 @@
+-- GRUB - Grand Unified Boot Loader
+. Existem dois GRUBs: GRUB LEGACY e GRUB 2
+
+
+--- GRUB LEGACY
+. Arquivos de configuracao:
+	-> /boot/grub/menu.lst : principal, contem as configs do grub
+	-> /boot/grub/grub.conf/cfg : arquivo de configuracao
+
+. Referencia ao disco: indica onde eh a particao / ou /boot
+	-> hda1 = hd0,0
+	-> hda5 = hd0,4
+	-> hdb3 = hd1,2
+
+. Comandos: comandos que instalam o grub
+	-> grub-install /dev/sda
+	-> grub-install '(hd0)'
+
+---> 
+--- GRUB 2
+. Arquivos de configuracao
+	-> /boot/grub/grub.cfg: arquivos de configuracao
+	-> /etc/default/grub: opcoes padroes do grub (gerais)
+	-> /etc/grub.d/ : arquivos de configuracao que definem as opcoes de boot
+
+---> O adm, na verdade, acaba mexendo nos arquivos do /etc e nao direto no /boot
+---> A partir do que eh configurado nos /etc, o arquivo grub.cfg eh gerado
+---> O boot loader usa o grug.cfg
+
+. Referencia ao disco: indica onde eh a particao / ou /boot
+	-> hda1 = hd0,1 ou hd0,msdos1
+	-> hda5 = hd0,5
+	-> hdb3 = hd1,3
+
+. Comandos: os comandos abaixo instalam o grub
+	-> grub-install <device>
+	-> update-grub (usa quando faz alguma modificacao no arquivo de config)
+	-> grub-mkconfig -o
+	-> /boot/grub/grub.cfg
+
+--- COMANDOS RELACIONADOS AO GRUB
+. /boot/ : contem imagens de versoes anteriores e atual do kernel, imagem do initrd, aplicativo de teste pra memoria
+. /boot/grub : arquivos de config do grub
+. update-grub --version: mostra a versao atual do grub
+. /etc/default + vi(ou nano) grub : edita o arquivo grub presente no diretorio /etc/default
+. /etc/grub.d/ : contem scripts usados para montar o grub.cfg
+. dd if=/dev/sda of=copia.mbr bs=1 count=521: copia partes de uma particao, pode ser usado para copiar os primeiros 521 bytes da particao (as que contem o boot loader) pra fazer um eventual backup
+	-> bs: copia e escreve byte a byte
+	-> if=(CAMINHO DA PARTICAO)
+	-> of=(NOME QUE O BACKUP VAI RECEBER)
+	-> count=(QUANTIDADE A SER COPIADA EM BYTES)
+. dd if=copia.mbr of=/dev/sda : faz a restauracao do boot loader usando uma copia (backup)
+

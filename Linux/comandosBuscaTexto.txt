@@ -1,0 +1,52 @@
+REGEX = Regular Expression (Expressoes Regulares) = conjunto de metacaracteres que definem um padrao de textos 
+
+grep:
+----> Principais opcoes:
+-> -c : contas as ocorrencias
+-> -i : ignorar o case sensitive
+-> -r : procura dentro dos sub-diretorios do diretorio atual
+-> -E : expande as expressoes regulares 
+-> -v : mostra os lugares que NAO contenham a expressao especificada no comando
+
+egrep: grep com expressoes regulares mais abrangentes == grep -E
+
+fgrep: nao aplica expressoes regulares 
+
+-> Expressoes regulares, normalmente, sao colocadas entre aspas ("")
+
+-- Exemplos:
+1) egrep "J[oie]a nomes.txt"/egrep "J[a-i]": encontra todas as ocorrencias no arquivo nomes.txt onde a palavra comeca com J, seguida por letras no intervalo de "a" ate "i"
+
+2) egrep "^Jo" nomes.txt : encontra todas as ocorrencias no arquivo nomes.txt onde a palavra comeca com "Jo"
+
+3) egrep "ia$" nomes.txt : encontra todas as ocorrencias no arquivo nomes.txt onde a palavra termina com "ia"
+
+4) egrep "^$" nomes.txt : mostra todas as ocorrencias de linhas em branco
+
+5) egrep "A[l-z]d*" nomes.txt : mostra todas as ocorrencias no arquivo nomes.txt, onde a palavra comeca com "A", seguida por uma letra no intervalo entre "l" e "z" e pode conter OU NAO o "d" (isso vale para o ultimo caracter ANTES do *)
+
+6) egrep "A[l-z]d*a" nomes.txt : mostra todas as ocorrencia no arquivo nomes.txt, onde a palavra comeca com "A", seguida por uma letra no intervalo entre "l" e "z", pode conter OU NAO o caracter "d", mas PRECISA ter o caracter "a"
+
+7) egrep "A[l-z]d+a" nomes.txt : semelhante ao exemplo 6), mas EXIGE que o caracter antes do "+" apareca pelo menos uma vez
+
+8) egrep "A[l-z]d?a" nomes.txt : semelhante ao exemplo 6), mas EXIGE que o caracter antes do "?" tenha aparecido NO MAXIMO uma vez, ou seja, pode aparecer nenhuma ou apenas uma vez
+
+9) egrep "A[l-z]d." nomes.txt : semelhante ao exemplo 6), mas EXIGE que apos o caracter "d" tenha algum caracter qualquer
+
+10) egrep "A[l-z]d..." nomes.txt : semelhante ao 9), mas EXIGE que apos o caracter "d" tenha 3 caracteres quaisquer
+
+11) egrep "O.Linux" nomes.txt : exemplo do 10), retorna (caso houver no arquivo): O Linux, OxLinux,OkLinux, etc.... 
+
+12) egrep "O.*Linux" nomes.txt : semelhante ao 11), mas retorna (caso haja no arquivo): O Linux, O Sistema Operacional Linux, OLinux. A diferenca eh que nao importa quantos caracteres existam entre "O" e "Linux"
+
+13) egrep "O*Linux" nomes.txt : semelhante ao 12), mas mostra ate quando o "O" nao esta presente, ex: Linux,LinuxUbuntu, OLinux (mostra caso o "O" esteja presente tambem)
+
+---> Comando sed, exemplos
+1) sed '/Anonimo/d' nomes.txt : deleta a linha que possuir "Anonimo"
+2) sed '/[lL]inux/d' nomes.txt : deleta a linha que possuir "Linux" ou "linux"
+3) sed 's/[lL]inux/Windows/' nomes.txt : substitui as ocorrencias de "Linux" e "linux" por "Windows"
+4) egrep -i "linux\." nomes.txt : procura pela expressao "linux.", ou seja, interpreta o "." como caracter (serve para ?, +, etc...) 
+
+
+ 
+

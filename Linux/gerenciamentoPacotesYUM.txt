@@ -1,0 +1,21 @@
+--- COMANDOS
+. yum : equivalente ao apt-get
+	-> yum check: verifica a base de dados do yum
+	-> yum install (PACOTE) : instala o pacote e as dependencias 
+	-> yum install --downloadonly (pacote): faz o download do pacote e todas as dependencias, mas nao instala. Esses pacotes ficaram no diretorio padrao do yum.
+	-> yum install --downloadonly --downloaddir=(DIRETORIO) (PACOTE): faz o download do pacote e todas as suas dependencias e os coloca no DIRETORIO indicado.
+	-> yumdownloader (PACOTE): faz o mesmo que yum install --downloadonly 
+	-> yum update : atualiza todos os pacotes
+	-> yum update (PACOTE): atualiza o pacote especificado
+	-> yum update --obsolete : atualiza todos os pacotes e remove os pacotes obsoletos
+	-> yum upgrade: atualiza todos os pacotes e remova pacotes obsoletos
+	-> yum check-update: checa todos os pacotes e verifica quais precisam de update
+	-> yum list: lista todos os pacotes instalados na maquina
+	-> yum search (PACOTE): procura todos os pacotes que estao relacionados ao pacote mencionado
+	-> yum erase (pacote) ou yum remove (PACOTE): remove o pacote mencionado
+	
+	
+--- DIRETORIOS/ARQUIVOS ASSOCIADOS
+. /etc/yum.conf : arquivo com as principais configuracoes do yum
+. /etc/yum.repos.d : arquivo com repositorios do yum (que ele usa pra consultar)
+

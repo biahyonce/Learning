@@ -1,0 +1,21 @@
+cat: le o arquivo de texto
+tac: inverte a saida do arquivo 
+head: mostra as primeiras 10 linhas 
+tail: mostra as ultimas 10 linhas
+less: faz paginacao 
+pipe (|): pega a saida do primeiro comando e usa como entrada no segundo
+wc: conta linhas, palavras e quantidade de bytes
+nl: igual ao "cat -d"
+sort: ordenar 
+uniq: mostra entradas unicas dentro de um arquivo 
+expand: converte tabs em espaco
+unexpand: faz o contrario do expand
+od: exibe em formato octal por padrao ou algum outro definido no parametro "-"
+join: junta 2 arquivos usando indices
+paste: junta 2 arquivos linha a linha
+split: divide um mesmo arquivo em varias partes
+tr: substitui ou deleta um caracter
+fmt: formata saida de texto
+pr: prepara um arquivo pra impressao (formatando-o) 
+cut: recorta partes de um texto
+sed: procura conteudo e substitui ou também para deletar linhas

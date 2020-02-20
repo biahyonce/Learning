@@ -1,0 +1,26 @@
+--- TEORIA RELACIONADA:
+. dos: indica partição MBR
+
+--- COMANDOS RELACIONADOS:
+. fidsk: principal comando para criar ou excluir partições do sistema
+	-> fdisk -l: lista meus discos e as partições dentro de cada disco
+	-> fdisk (NOME DO DISCO A TRABALHAR)	
+		-> n: criar nova partição 
+			-> pode ser primária ou extendida
+			-> primeira seção: pode escolher ou dar enter pra usar o padrão
+			-> ultimo setor: detalha o tamanho usando "+(TAMANHO)", ex: +2G -> tamanho de 2GB
+		-> p: lista as partições
+		-> q: sai sem salvar mudanças
+		-> w: escreve no disco
+		-> d: exluir uma partição
+			-> Se deletar uma particao logica 5, a 6 se transformara na 5, isso ocorre porque as partições lógicas devem seguir uma sequência
+			-> Se a partição extendida que guarda as partições lógicas for excluída, as partições lógicas também serão
+		-> l: lista tipos de partições conhecidas
+		-> t: altera o tipo de partição (usando os códigos listados em l)
+		-> o: cria uma nova partição DOS vazia (apaga partições anteriores)
+		-> g: cria uma nova partição do tipo GPT (apaga partições anteriores)
+
+. gdisk: semelhante ao fdisk, mas, por padrão, cria ou exclui partições gpt
+	-> gdisk (DISCO A SER TRABALHADO)
+	
+	
