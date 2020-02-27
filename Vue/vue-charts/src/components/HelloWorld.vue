@@ -57,7 +57,10 @@
         chartOptions: {
           chart: {
             type: 'bar',
-            height: 350
+            height: 350,
+            toolbar: {
+              show: false
+            },
           },
           plotOptions: {
             bar: {
